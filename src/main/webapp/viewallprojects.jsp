@@ -65,7 +65,7 @@
 </head>
 <body>
     
-  <%--   <%@ include file="adminhome.jsp" %> --%>
+   <%@ include file="adminhome.jsp" %> 
    <h1>Project Submissions</h1>
         <table>
             <thead>
