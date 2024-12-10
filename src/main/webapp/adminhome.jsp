@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="style/adminhome.css">
     
     <!-- Inline Custom CSS for General Styling -->
-    <style>
+     <style>
         /* General Body Styling */
         body {
             margin: 0;
@@ -19,10 +19,12 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f6f9; /* Light gray background */
             color: #333; /* Dark gray text */
+            background-image: url("images/adminhomebg.jpg");
         }
 
         /* Main Content Styling */
         .content {
+            margin-top: 60px;
             margin: 40px auto; /* Center the content vertically */
             padding: 30px;
             width: 80%;
@@ -71,22 +73,31 @@
             background-color: #343a40; /* Dark sidebar background */
             color: #fff;
             position: fixed;
-            padding: 20px;
+            padding: 20px 20px; /* Reduced padding */
         }
 
         .sidebar h4 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 50px; /* Reduced margin */
+        }
+
+        .sidebar .nav-item {
+            margin-bottom: 15px; /* Reduced the bottom margin between nav items */
         }
 
         .sidebar .nav-link {
             color: #ccc;
-            margin-bottom: 10px;
+            padding: 8px 10px; /* Reduced padding for links */
+            font-size: 0.9rem; /* Slightly smaller font size */
         }
 
         .sidebar .nav-link.active {
             color: #fff;
             font-weight: bold;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px; /* Adjust icon spacing */
         }
 
         /* Responsive Design */
@@ -105,6 +116,7 @@
             }
         }
     </style>
+
 </head>
 <body>
     <!-- Side Navbar -->
@@ -121,7 +133,7 @@
                     <i class="fas fa-user-plus"></i> <span>Add Faculty</span>
                 </a>
             </li>
-              <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="updatestudentstatus">
                     <i class="fas fa-user-plus"></i> <span>Update Student Status</span>
                 </a>
@@ -131,29 +143,27 @@
                     <i class="fas fa-users"></i> <span>View All Faculty</span>
                 </a>
             </li>
-                        <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="viewallstudents">
                     <i class="fas fa-users"></i> <span>View All Students</span>
                 </a>
             </li>
-            <li>
-                        <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="viewallprojects">
                     <i class="fas fa-users"></i> <span>View All Submissions</span>
                 </a>
             </li>
-            
             <li class="nav-item">
                 <a class="nav-link" href="deletefac">
                     <i class="fas fa-user-minus"></i> <span>Delete Faculty</span>
                 </a>
             </li>
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="deletestudent">
                     <i class="fas fa-user-minus"></i> <span>Delete Student</span>
                 </a>
             </li>
-              <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="viewAllFeedback">
                     <i class="fas fa-user-minus"></i> <span>View FeedBack</span>
                 </a>
@@ -163,7 +173,6 @@
                     <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
                 </a>
             </li>
-              
         </ul>
     </div>
 
@@ -172,15 +181,14 @@
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- Main Content -->
-    <div class="content">
-        <h2>Welcome to Admin Dashboard</h2>
-        <p>
-            This is the admin home page where you can manage faculty, view statistics, and monitor activity. 
-            Please navigate using the options provided in the menu.
-        </p>
-        
-    </div>
+<!--     Main Content -->
+<!--     <div class="content"> -->
+<!--         <h2>Welcome to Admin Dashboard</h2> -->
+<!--         <p> -->
+<!--             This is the admin home page where you can manage faculty, view statistics, and monitor activity.   -->
+<!--             Please navigate using the options provided in the menu. -->
+<!--         </p> -->
+<!--     </div> -->
 
     <!-- Add Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
