@@ -1,9 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Delete Faculty</title>
+    <title>View All Feedbacks</title>
     <style>
         /* General Body Styling */
         body {
@@ -55,83 +56,69 @@
             margin-left: 250px;
         }
 
-        /* Centered Heading Styling */
-        h3 {
-            text-align: center;
-            color: #2a4d69; /* Dark blue */
-            margin-top: 20px;
-            font-size: 24px;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 1px;
+        /* Navbar Styling */
+        .navbar {
+            background-color: #2a4d69;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 999;
         }
 
-        h3 u {
-            text-decoration: underline;
-            text-underline-offset: 5px;
-            text-decoration-thickness: 2px;
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin-right: 15px;
+        }
+
+        .navbar a:hover {
+            background-color: #4c6a8f;
         }
 
         /* Table Styling */
-        table {
-            width: 90%;
-            max-width: 1200px;
-            margin: 20px auto;
-            border-collapse: collapse;
-            background-color: #ffffff; /* White background */
-            border: 1px solid #d9d9d9; /* Light gray border */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            border-radius: 8px; /* Rounded corners */
-        }
+      table {
+    width: 80%;
+    max-width: 1200px;
+    margin: 80px auto; /* Space for navbar */
+    border-collapse: collapse;
+    background-color: #f7f7f7; /* Light gray background */
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border-radius: 8px;
+}
 
-        table, th, td {
-            border: 1px solid #d9d9d9;
-        }
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
 
-        th, td {
-            padding: 15px;
-            text-align: center;
-            font-size: 14px;
-            word-wrap: break-word;
-        }
+/* Table Header Styling */
+th {
+    background-color: #2a4d69; /* Dark blue */
+    color: white;
+}
 
-        /* Table Header Styling */
-        th {
-            background-color: #2a4d69; /* Dark blue */
-            color: #ffffff; /* White text */
-            text-transform: uppercase;
-            font-weight: bold;
-        }
+/* Alternating Row Colors */
+tr:nth-child(even) {
+    background-color: #ffffff; /* White */
+}
 
-        /* Alternating Row Colors */
-        tr:nth-child(even) {
-            background-color: #f9f9f9; /* Light gray */
-        }
+tr:nth-child(odd) {
+    background-color: #f7f7f7; /* Light gray */
+}
 
-        tr:nth-child(odd) {
-            background-color: #ffffff; /* White */
-        }
-
-        /* Highlight Row on Hover */
-        tr:hover {
-            background-color: #e0f7fa; /* Light teal hover effect */
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        /* Delete Link Styling */
-        a {
-            text-decoration: none;
-            color: white;
-            background-color: #d9534f; /* Red button color */
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        a:hover {
-            background-color: #c9302c; /* Darker red on hover */
-            transition: background-color 0.3s ease-in-out;
-        }
+/* Highlight Row on Hover */
+tr:hover {
+    background-color: #e0f7fa; /* Light teal hover effect */
+}
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -141,11 +128,11 @@
             }
 
             th, td {
-                padding: 10px;
+                padding: 8px;
             }
 
-            h3 {
-                font-size: 18px;
+            h2 {
+                font-size: 20px;
             }
         }
     </style>
@@ -159,7 +146,10 @@
     </script>
 </head>
 <body>
+    <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+    
+    <!-- Sidebar -->
     <div class="sidebar">
         <h3>Sidebar</h3>
         <ul>
@@ -168,32 +158,47 @@
             <li><a href="#">Settings</a></li>
         </ul>
     </div>
+
+<!--     Navbar -->
+<!--     <div class="navbar"> -->
+<!--         <div> -->
+<!--             <a href="#">Logo</a> -->
+<!--             <a href="#">Dashboard</a> -->
+<!--             <a href="#">Logout</a> -->
+<!--         </div> -->
+<!--     </div> -->
+
+    <!-- Main Content Area -->
     <div class="content">
         <%@ include file="adminhome.jsp" %>
-        <h3 style="text-align: center;"><u>Delete Faculty</u></h3>
+        <h2 style="text-align: center;">All Feedbacks</h2>
         <table>
-            <tr>
-                <th>ID</th>
-                <th>USERNAME</th>
-                <th>GENDER</th>
-                <th>EMAIL</th>
-                <th>DEPARTMENT</th>
-                <th>CONTACT</th>
-                <th>ACTION</th>
-            </tr>
-            <c:forEach items="${faclist}" var="fac">
+            <thead>
                 <tr>
-                    <td><c:out value="${fac.id}"/></td>
-                    <td><c:out value="${fac.username}"/></td>
-                    <td><c:out value="${fac.gender}"/></td>
-                    <td><c:out value="${fac.email}"/></td>
-                    <td><c:out value="${fac.department}"/></td>
-                    <td><c:out value="${fac.contact}"/></td>
-                    <td>
-                        <a href='<c:url value="delete?id=${fac.id}"/>'>Delete</a>
-                    </td>
+                    <th>ID</th>
+                    <th>User Type</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Design Rating</th>
+                    <th>Upload Rating</th>
+                    <th>Response Rating</th>
+                    <th>Additional Feedback</th>
                 </tr>
-            </c:forEach>
+            </thead>
+            <tbody>
+                <c:forEach var="feedback" items="${feedbackList}">
+                    <tr>
+                        <td>${feedback.id}</td>
+                        <td>${feedback.userType}</td>
+                        <td>${feedback.name}</td>
+                        <td>${feedback.email}</td>
+                        <td>${feedback.designRating}</td>
+                        <td>${feedback.uploadRating}</td>
+                        <td>${feedback.responseRating}</td>
+                        <td>${feedback.additionalFeedback}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
         </table>
     </div>
 </body>
