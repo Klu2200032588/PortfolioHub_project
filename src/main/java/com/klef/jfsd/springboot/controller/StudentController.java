@@ -110,67 +110,32 @@ public class StudentController {
         return mv;
     }
 
-//    @PostMapping("checkstudentlogin")
-//    public ModelAndView checkstudentlogin(HttpServletRequest request) {
-//        ModelAndView mv = new ModelAndView();
-//        String email = request.getParameter("studentemail");
-//        String password = request.getParameter("studentpassword");
-//
-//        Student student = studentService.checkstudentlogin(email, password);
-//
-////        if (student != null) {
-//           HttpSession session = request.getSession();
-//            session.setAttribute("student", student); 
-//           // session.setMaxInactiveInterval(5);
-////            mv.setViewName("studenthome");
-////        } else {
-////            mv.setViewName("studentlogin");
-////            mv.addObject("message", "Login Failed. Please check your credentials.");
-////        }
-//        if (student != null && "Accepted".equals(student.getStatus())) {
-//            mv.setViewName("studenthome");
-//        } else {
-//            mv.setViewName("studentloginfail");
-//            mv.addObject("message", "Login Failed or Not Approved");
-//        }
-//        return mv;
-    @PostMapping("/checkstudentlogin")
-    public ModelAndView checkStudentLogin(HttpServletRequest request) {
+    @PostMapping("checkstudentlogin")
+    public ModelAndView checkstudentlogin(HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         String email = request.getParameter("studentemail");
         String password = request.getParameter("studentpassword");
 
-        // Validate student credentials using the service
         Student student = studentService.checkstudentlogin(email, password);
 
-        if (student != null) {
-            if ("Accepted".equalsIgnoreCase(student.getStatus())) {
-                // Store student information in the session
-                HttpSession session = request.getSession();
-                
-                session.setAttribute("studentId", student.getId());  // Storing student ID
-                session.setAttribute("studentName", student.getStudentname());
-                session.setAttribute("studentEmail", student.getStudentemail());
-               // session.setMaxInactiveInterval(300); // Session timeout set to 5 minutes
-                
-                // Redirect to the student home page
-                mv.setViewName("studenthome");
-            } else {
-                // If student exists but status is not accepted
-                mv.setViewName("studentloginfail");
-                mv.addObject("message", "Login failed. Your account is not yet approved.");
-            }
+//        if (student != null) {
+           HttpSession session = request.getSession();
+            session.setAttribute("student", student); 
+            //session.setMaxInactiveInterval(5);
+//            mv.setViewName("studenthome");
+//        } else {
+//            mv.setViewName("studentlogin");
+//            mv.addObject("message", "Login Failed. Please check your credentials.");
+//        }
+        if (student != null && "Accepted".equals(student.getStatus())) {
+            mv.setViewName("studenthome");
         } else {
-            // If credentials are invalid
-            mv.setViewName("studentlogin");
-            mv.addObject("message", "Login failed. Please check your credentials.");
+            mv.setViewName("studentloginfail");
+            mv.addObject("message", "Login Failed or Not Approved");
         }
-
         return mv;
-    }
-
  
-    
+    }
 
     @GetMapping("studenthome")
     public ModelAndView studenthome() {
@@ -205,46 +170,46 @@ public class StudentController {
 		return mv;
 	}
     
-    @PostMapping("insertfile")
-    public ModelAndView insertfile(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws Exception {
-        ModelAndView mv = new ModelAndView();
-        HttpSession session = request.getSession();
-        Student loggedInStudent = (Student) session.getAttribute("student");
-
-        // Check if the student is logged in
-        if (loggedInStudent == null) {
-            mv.setViewName("studentlogin");
-            mv.addObject("message", "Please log in to upload a project.");
-            return mv;
-        }
-
-        try {
-            int fileid = Integer.parseInt(request.getParameter("fileidd"));
-            String projecttitle = request.getParameter("projecttitle");
-            String projectdesc = request.getParameter("projectdesc");
-
-            byte[] bytes = file.getBytes();
-            Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-
-            // Set project details, but reuse student info from session
-         //   loggedInStudent.setProjectid(fileid);
-            loggedInStudent.setProjectTitle(projecttitle);
-            loggedInStudent.setProjectDescription(projectdesc);
-            loggedInStudent.setFile(blob);
-
-            String msg = studentService.AddFile(loggedInStudent);
-            System.out.println(msg);
-            mv.setViewName("fileuploadedsuccess");
-            mv.addObject("message", msg);
-
-        } catch (Exception e) {
-            mv.setViewName("fileerror");
-            mv.addObject("message", e.getMessage());
-        }
-
-        return mv;
-    }
-    
+//    @PostMapping("insertfile")
+//    public ModelAndView insertfile(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws Exception {
+//        ModelAndView mv = new ModelAndView();
+//        HttpSession session = request.getSession();
+//        Student loggedInStudent = (Student) session.getAttribute("student");
+//
+//        // Check if the student is logged in
+//        if (loggedInStudent == null) {
+//            mv.setViewName("studentlogin");
+//            mv.addObject("message", "Please log in to upload a project.");
+//            return mv;
+//        }
+//
+//        try {
+//            int fileid = Integer.parseInt(request.getParameter("fileidd"));
+//            String projecttitle = request.getParameter("projecttitle");
+//            String projectdesc = request.getParameter("projectdesc");
+//
+//            byte[] bytes = file.getBytes();
+//            Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+//
+//            // Set project details, but reuse student info from session
+//         //   loggedInStudent.setProjectid(fileid);
+//            loggedInStudent.setProjectTitle(projecttitle);
+//            loggedInStudent.setProjectDescription(projectdesc);
+//            loggedInStudent.setFile(blob);
+//
+//            String msg = studentService.AddFile(loggedInStudent);
+//            System.out.println(msg);
+//            mv.setViewName("fileuploadedsuccess");
+//            mv.addObject("message", msg);
+//
+//        } catch (Exception e) {
+//            mv.setViewName("fileerror");
+//            mv.addObject("message", e.getMessage());
+//        }
+//
+//        return mv;
+//    }
+//    
  
 //    @GetMapping("/uploadProject")
 //    public String showUploadForm(Model model) {
@@ -291,55 +256,54 @@ public class StudentController {
    		return mv;
    	}
     
-    @GetMapping("uploadprojectdetails")
-   	public String projectoverview(Model model)
-   	{
-  	List<Faculty> facultyList = adminService.ViewAllFaculty();
-    	 model.addAttribute("project", new Project());
-         model.addAttribute("faclist", facultyList);
-         return "uploadprojectdetails";
-        
-   	}
+//    @GetMapping("uploadprojectdetails")
+//   	public String projectoverview(Model model)
+//   	{
+//  	List<Faculty> facultyList = adminService.ViewAllFaculty();
+//    	 model.addAttribute("project", new Project());
+//         model.addAttribute("faclist", facultyList);
+//         return "uploadprojectdetails";
+//        
+//   	}
 
-
-    @PostMapping("/insertprojectdetails")
-    public String insertProjectDetails(
-            @RequestParam("studentId") int studentId,
-            @RequestParam("description") String description,
-            @RequestParam("milestones") String milestones,
-            @RequestParam("modules") String modules,
-            @RequestParam("resources") String resources,
-            @RequestParam("url") String url,
-            @RequestParam(value = "feedback", required = false) Integer feedback, // Optional
-            @RequestParam("facultyId") int facultyId) {
-
-        // Retrieve the student and faculty entities from their respective services
-        Student student = studentService.findById(studentId);
-        Faculty faculty = facultyService.findById(facultyId);
-
-        // Check if student and faculty are found
-        if (student == null || faculty == null) {
-            throw new IllegalArgumentException("Student or Faculty not found with the provided IDs.");
-        }
-
-        // Create a new Project object and set its fields
-        Project project = new Project();
-        project.setDescription(description);
-        project.setMilestones(milestones);
-        project.setModules(modules);
-        project.setResources(resources);
-        project.setUrl(url);
-        project.setFeedback(feedback != null ? feedback : 0); // Default to 0 if feedback is null
-        project.setStudent(student);
-        project.setFaculty(faculty);
-
-        // Save the project using the service
-        projectService.saveProject(project,facultyId);
-
-        // Return the name of the view to show after insertion
-        return "projectsubmission";
-    }
-    
+//    @PostMapping("/insertprojectdetails")
+//    public String insertProjectDetails(
+//            @RequestParam("studentId") int studentId,
+//            @RequestParam("description") String description,
+//            @RequestParam("milestones") String milestones,
+//            @RequestParam("modules") String modules,
+//            @RequestParam("resources") String resources,
+//            @RequestParam("url") String url,
+//            @RequestParam(value = "feedback", required = false) Integer feedback, // Optional
+//            @RequestParam("facultyId") int facultyId) {
+//
+//        // Retrieve the student and faculty entities from their respective services
+//        Student student = studentService.findById(studentId);
+//        Faculty faculty = facultyService.findById(facultyId);
+//
+//        // Check if student and faculty are found
+//        if (student == null || faculty == null) {
+//            throw new IllegalArgumentException("Student or Faculty not found with the provided IDs.");
+//        }
+//
+//        // Create a new Project object and set its fields
+//        Project project = new Project();
+//        project.setDescription(description);
+//        project.setMilestones(milestones);
+//        project.setModules(modules);
+//        project.setResources(resources);
+//        project.setUrl(url);
+//        project.setFeedback(feedback != null ? feedback : 0); // Default to 0 if feedback is null
+//        project.setStudent(student);
+//        project.setFaculty(faculty);
+//
+//        // Save the project using the service
+//        projectService.saveProject(project,facultyId);
+//
+//        // Return the name of the view to show after insertion
+//        return "projectsubmission";
+//    }
+//    
     
 
     @GetMapping("createportfolio")
@@ -481,42 +445,7 @@ public class StudentController {
         return mv; 
         }
     
-//        @GetMapping("/studentprojects")
-//        public ModelAndView viewStudentProjects(HttpServletRequest request) {
-//            ModelAndView mv = new ModelAndView();
-//            HttpSession session = request.getSession(false); // Get existing session or null if not present
-//
-//            if (session != null && session.getAttribute("studentId") != null) {
-//                Integer studentId = (Integer) session.getAttribute("studentId"); 
-//                // Proceed to fetch and display student projects using studentId
-//                // Example logic to retrieve student projects
-//                List<Project> projectlist = projectService.findProjectsByStudentId(studentId);
-//                mv.addObject("projectlist", projectlist);
-//                mv.setViewName("studentprojects");
-//            } else {
-//                // Redirect to login page if session or studentId is null
-//                mv.setViewName("redirect:/studentlogin");
-//                mv.addObject("message", "Please log in to view your projects.");
-//            }
-//
-//            return mv;
-//        }
-		/*
-		 * @GetMapping("/studentprojects") public ModelAndView
-		 * submissions(HttpServletRequest request) { ModelAndView mv = new
-		 * ModelAndView(); HttpSession session = request.getSession(false);
-		 * 
-		 * if (session != null && session.getAttribute("studentId") != null) { Integer
-		 * studentId = (Integer) session.getAttribute("studentId");
-		 * System.out.println("Student ID from session: " + studentId); List<Project>
-		 * projects = projectService.findProjectsByStudentId(studentId);
-		 * mv.addObject("projects", projects); mv.setViewName("studentprojects"); } else
-		 * { System.out.println("Session is null or studentId not found in session.");
-		 * mv.setViewName("studentlogin"); mv.addObject("message",
-		 * "Please log in to view submissions."); }
-		 * 
-		 * return mv; }
-		 */
+	
         @GetMapping("/studentprojects")
         public String viewStudentProjects(@RequestParam int studentId, Model model) {
             List<Project> allProjects = adminService.ViewAllProjects();
@@ -533,13 +462,55 @@ public class StudentController {
             return "studentprojects";
         }
 
-
-
-
     
+        @GetMapping("uploadprojectdetails")
+       	public String projectoverview(Model model)
+       	{
+      	List<Faculty> facultyList = adminService.ViewAllFaculty();
+        	 model.addAttribute("project", new Project());
+             model.addAttribute("faclist", facultyList);
+             return "uploadprojectdetails";
+            
+       	}
 
-    
-   
+
+        @PostMapping("/insertprojectdetails")
+        public String insertProjectDetails(
+                @RequestParam("studentId") int studentId,
+                @RequestParam("description") String description,
+                @RequestParam("milestones") String milestones,
+                @RequestParam("modules") String modules,
+                @RequestParam("resources") String resources,
+                @RequestParam("url") String url,
+                @RequestParam(value = "feedback", required = false) Integer feedback, // Optional
+                @RequestParam("facultyId") int facultyId) {
+
+            // Retrieve the student and faculty entities from their respective services
+            Student student = studentService.findById(studentId);
+            Faculty faculty = facultyService.findById(facultyId);
+
+            // Check if student and faculty are found
+            if (student == null || faculty == null) {
+                throw new IllegalArgumentException("Student or Faculty not found with the provided IDs.");
+            }
+
+            // Create a new Project object and set its fields
+            Project project = new Project();
+            project.setDescription(description);
+            project.setMilestones(milestones);
+            project.setModules(modules);
+            project.setResources(resources);
+            project.setUrl(url);
+            project.setFeedback(feedback != null ? feedback : 0); // Default to 0 if feedback is null
+            project.setStudent(student);
+            project.setFaculty(faculty);
+
+            // Save the project using the service
+            projectService.saveProject(project,facultyId);
+
+            // Return the name of the view to show after insertion
+            return "projectsubmission";
+        }
    
 
     
