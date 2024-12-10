@@ -80,7 +80,7 @@
             <tbody>
                 <c:forEach var="project" items="${projectlist}">
                     <tr>
-                     <td>${project.student}</td>
+                     <td>${project.studentid}</td>
                         <td>${project.projectid}</td>  
                         <td>${project.description}</td>
                         <td>${project.url}</td>
