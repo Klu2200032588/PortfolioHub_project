@@ -182,13 +182,13 @@
     </button>
 
 <!--     Main Content -->
-<!--     <div class="content"> -->
-<!--         <h2>Welcome to Admin Dashboard</h2> -->
-<!--         <p> -->
-<!--             This is the admin home page where you can manage faculty, view statistics, and monitor activity.   -->
-<!--             Please navigate using the options provided in the menu. -->
-<!--         </p> -->
-<!--     </div> -->
+     <div class="content"> 
+       <h2>Welcome to Admin Dashboard</h2> 
+       <p> 
+             This is the admin home page where you can manage faculty, view statistics, and monitor activity. 
+            Please navigate using the options provided in the menu. 
+        </p> 
+    </div> 
 
     <!-- Add Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
