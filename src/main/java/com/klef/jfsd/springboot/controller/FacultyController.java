@@ -210,23 +210,22 @@ public class FacultyController
 
 	     return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
 	   }
-	   
 	   @GetMapping("/facultyprojectsubmissions")
-	   public String viewFacultyProjects(@RequestParam int facultyId, Model model) {
-	   
-	       List<Project> allProjects = adminService.ViewAllProjects();
+	   public String viewFacultyProjects(Model model, HttpSession session) {
+	       Faculty faculty = (Faculty) session.getAttribute("faculty");
+	       if (faculty == null) {
+	           return "redirect:/facultylogin";
+	       }
 
-	    
+	       List<Project> allProjects = adminService.ViewAllProjects();
 	       List<Project> filteredProjects = allProjects.stream()
-	           .filter(project -> project.getFaculty() != null && project.getFaculty().getId() == facultyId)
+	           .filter(project -> project.getFaculty() != null && project.getFaculty().getId() == faculty.getId())
 	           .collect(Collectors.toList());
 
-	       // Add the filtered projects to the model
 	       model.addAttribute("projects", filteredProjects);
-
-	       // Return the view name
 	       return "facultyprojectsubmissions";
 	   }
+	 
 	   
 	   @PostMapping("/submitFeedback")
 	   public String submitFeedback(
