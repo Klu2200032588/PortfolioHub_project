@@ -445,22 +445,27 @@ public class StudentController {
         return mv; 
         }
     
-	
-        @GetMapping("/studentprojects")
-        public String viewStudentProjects(@RequestParam int studentId, Model model) {
+	  @GetMapping("/studentprojects")
+        public String viewStudentProjects(Model model, HttpSession session) {
+            // Retrieve the student object from the session
+            Student student = (Student) session.getAttribute("student");
+            if (student == null) {
+                return "redirect:/studentlogin"; // Redirect to login if the student is not in the session
+            }
+
+            // Get all projects and filter them by the logged-in student's ID
             List<Project> allProjects = adminService.ViewAllProjects();
-            
-            // Filter projects by matching student ID
             List<Project> filteredProjects = allProjects.stream()
-                    .filter(project -> project.getStudent() != null && project.getStudent().getId() == studentId)
+                    .filter(project -> project.getStudent() != null && project.getStudent().getId() == student.getId())
                     .collect(Collectors.toList());
 
             // Add the filtered projects to the model
             model.addAttribute("projects", filteredProjects);
 
-            // Return the view name
+            // Return the view name for student project submissions
             return "studentprojects";
         }
+       
 
     
         @GetMapping("uploadprojectdetails")
